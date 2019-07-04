@@ -1,7 +1,6 @@
 package com.tallervi.Controller;
 
 import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -46,6 +46,13 @@ public class JuegosController {
        		 -> new ResourceNotFoundException("Juego "+id+" no encontrado"));
         }
 	
+	//Get ByNombre
+	@GetMapping(value = "/juegos/find") 
+	public List<Juegos> getNombre(@RequestParam (required=true) String nombre) {
+        //return juegosRepository.findBynombre(nombre);
+		return juegosRepository.findBynombreContaining(nombre);
+        }
+	
 	//Post
 	@PostMapping(value = "/juegos")
 	@ResponseStatus(code = HttpStatus.CREATED)
@@ -53,7 +60,7 @@ public class JuegosController {
 		return juegosRepository.save(juego);
 	 }
 	
-	
+	//Put
 	@PutMapping(value = "/juegos/{id}")
 	@ResponseStatus(code = HttpStatus.ACCEPTED)
 	public ResponseEntity<Juegos> updateJuego(@PathVariable Integer id,
@@ -70,6 +77,7 @@ public class JuegosController {
 				("Cliente "+id+" no encontrado"));
 	}
 	
+	//Delete
 	@DeleteMapping(value = "/juegos/{id}")
 	public ResponseEntity<?> deleteJuego(@PathVariable Integer id){
 

@@ -20,7 +20,7 @@ public class Juegos {
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name="nombre")
+	@Column(name="nombre", unique=true)
 	@NotEmpty(message = "Nombre es obligatorio")
 	@Size(min=2, message="minimo dos caracteres")
 	private String nombre;
