@@ -47,11 +47,24 @@ public class JuegosController {
         }
 	
 	//Get ByNombre
-	@GetMapping(value = "/juegos/find") 
+/*	@GetMapping(value = "/juegos/find") 
 	public List<Juegos> getNombre(@RequestParam (required=true) String nombre) {
         //return juegosRepository.findBynombre(nombre);
 		return juegosRepository.findBynombreContaining(nombre);
-        }
+        }*/
+	
+	//Get ByNombre
+	@GetMapping(value = "/juegos/find") 
+	public ResponseEntity<?> getNombre(@RequestParam (required=true) String nombre) {
+		//return juegosRepository.findBynombre(nombre);
+		List<Juegos> juegos = juegosRepository.findBynombreContaining(nombre);
+		
+		if(juegos.isEmpty())
+			//return ResponseEntity.notFound().build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(nombre +" no encontrado");
+		else
+			return ResponseEntity.ok(juegos);
+	}
 	
 	//Post
 	@PostMapping(value = "/juegos")
@@ -88,6 +101,5 @@ public class JuegosController {
         ).orElseThrow(() -> new ResourceNotFoundException
         		("Juego "+id+" no encontrado"));
     }
-		
 	
 }
