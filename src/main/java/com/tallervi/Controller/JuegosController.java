@@ -34,33 +34,34 @@ public class JuegosController {
 	private JuegosRepository juegosRepository;
 	
 	//GetAll
-	@GetMapping(value = "/juegos") 
-	public List<Juegos> getCliente() {
+	/*@GetMapping(value = "/juegos") 
+	public List<Juegos> listAllJuegos() {
         return juegosRepository.findAll(Sort.by("id"));
-        }
+        }*/
 	
+	//GetAll
+	@GetMapping(value = "/juegos")
+    public ResponseEntity<List<Juegos>> listAllJuegos() {
+        List<Juegos> juegos = juegosRepository.findAll(Sort.by("id"));
+        if (juegos.isEmpty()) {
+            return new ResponseEntity<List<Juegos>>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<List<Juegos>>(juegos, HttpStatus.OK);
+    }
+		
 	//GetById
 	@GetMapping(value = "/juegos/{id}")
 	public Juegos findByJuegoId (@PathVariable Integer id){ 
         return juegosRepository.findById(id).orElseThrow(()
        		 -> new ResourceNotFoundException("Juego "+id+" no encontrado"));
         }
-	
-	//Get ByNombre
-/*	@GetMapping(value = "/juegos/find") 
-	public List<Juegos> getNombre(@RequestParam (required=true) String nombre) {
-        //return juegosRepository.findBynombre(nombre);
-		return juegosRepository.findBynombreContaining(nombre);
-        }*/
-	
+
 	//Get ByNombre
 	@GetMapping(value = "/juegos/find") 
 	public ResponseEntity<?> getNombre(@RequestParam (required=true) String nombre) {
-		//return juegosRepository.findBynombre(nombre);
 		List<Juegos> juegos = juegosRepository.findBynombreContaining(nombre);
 		
 		if(juegos.isEmpty())
-			//return ResponseEntity.notFound().build();
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(nombre +" no encontrado");
 		else
 			return ResponseEntity.ok(juegos);
@@ -101,5 +102,4 @@ public class JuegosController {
         ).orElseThrow(() -> new ResourceNotFoundException
         		("Juego "+id+" no encontrado"));
     }
-	
 }
