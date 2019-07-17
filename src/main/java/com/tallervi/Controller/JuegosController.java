@@ -34,12 +34,6 @@ public class JuegosController {
 	private JuegosRepository juegosRepository;
 	
 	//GetAll
-	/*@GetMapping(value = "/juegos") 
-	public List<Juegos> listAllJuegos() {
-        return juegosRepository.findAll(Sort.by("id"));
-        }*/
-	
-	//GetAll
 	@GetMapping(value = "/juegos")
     public ResponseEntity<List<Juegos>> listAllJuegos() {
         List<Juegos> juegos = juegosRepository.findAll(Sort.by("id"));
@@ -85,6 +79,7 @@ public class JuegosController {
 			juego.setAnio(nuevoJuego.getAnio());
 			juego.setRanking(nuevoJuego.getRanking());
 			juego.setJugadores(nuevoJuego.getJugadores());
+			juego.setDisponible(nuevoJuego.getDisponible());
 			juegosRepository.save(juego);
 			return ResponseEntity.ok(juego);
 		}).orElseThrow(() -> new ResourceNotFoundException

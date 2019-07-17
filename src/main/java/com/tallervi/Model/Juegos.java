@@ -37,6 +37,9 @@ public class Juegos {
 	@NotNull(message = "Cantidad de jugadores minimo 1")
 	@Min(1)
 	private int jugadores;
+	
+	@Column(name="disponible")
+	private boolean disponible;
 
 	public int getId() {
 		return id;
@@ -78,14 +81,20 @@ public class Juegos {
 		this.jugadores = jugadores;
 	}
 
+	public boolean getDisponible() {
+		return disponible;
+	}
+
+	public void setDisponible(boolean disponible) {
+		this.disponible = disponible;
+	}
+
 	@Override
 	public String toString() {
 		return "Juegos [id=" + id + ", nombre=" + nombre + ", anio=" + anio + ", ranking=" + ranking + ", jugadores="
-				+ jugadores + "]";
+				+ jugadores + ", disponible=" + disponible + "]";
 	}
-
-
 	
-	
+		
 
 }
